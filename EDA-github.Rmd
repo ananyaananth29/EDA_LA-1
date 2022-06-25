@@ -1,0 +1,481 @@
+---
+title: "EDA LA-1"
+output:
+  word_document: default
+  pdf_document: default
+  html_document:
+    df_print: paged
+date: '2022-06-23'
+---
+### 1.Reading the data from the dataset
+```{r}
+data=read.csv("C:/Users/Monisha/OneDrive/Documents/Rstudio/R/COVID-19 India Statewise Vaccine Data.csv")
+```
+
+### 2.To view all objects
+```{r}
+ls()
+```
+
+### 3.Using ls() for pattern matching
+```{r}
+ls(data)
+```
+
+### 4.Finding the class of dataset
+```{r}
+class(data)
+```
+
+### 5.Finding the structure of dataset
+```{r}
+str(data)
+```
+
+### 6.Selectind the element present in 3rd row and 3rd column
+```{r}
+data[3,3]
+```
+
+### 7.Selecting 3rd row and displaying columns 1 to 4
+```{r}
+data[3,1:4]
+```
+
+### 8.Selecting the first column alone
+```{r}
+data[,1]
+```
+
+### 9.Displaying specific rows and all columns
+```{r}
+data[c(1,3),]
+```
+### 10.Displaying specific rows and all columns except 4th column
+```{r}
+data[c(1,3),-4]
+```
+### 11.Fetching column data by its name
+```{r}
+data[c(1,3),"State.UTs"]
+```
+### 12.Sorting the column 
+```{r}
+sort(data$State.UTs)
+```
+### 13.Ordering a particular column in a dataset
+```{r}
+order(data$Population)
+```
+### 14.Determine the rank of particular column
+```{r}
+rank(data$Dose.1)
+```
+### 15.Displaying first six rows of the dataset
+```{r}
+head(data)
+```
+### 16.Displaying the last six rows of the dataset
+```{r}
+tail(data)
+```
+###17.Displaying first 3 rows in a dataset
+```{r}
+head(data,n=3)
+```
+### 18.Summary of dataset
+```{r}
+summary(data)
+```
+### 19.To display column names
+```{r}
+colnames(data)
+```
+### 20.To display row names
+```{r}
+row.names(data)
+```
+### 21.To display both row and column names
+```{r}
+dimnames(data)
+```
+### 22.To find the transpose of the data frame
+```{r}
+t(data)
+```
+### 23.Ordering the rows based on column name
+```{r}
+with(data,order(State.UTs))
+```
+### 24.Converting dataframe to a matrix
+```{r}
+as.matrix(data)
+```
+### 25.Converting dataframe to list
+```{r}
+as.list(data)
+```
+### 26.To get the 20% quantile of a given column
+```{r}
+quantile(data$Population,0.2)
+```
+### 27.To pick 20%,50%, and 80% quantile
+```{r}
+quantile(data$Population,c(0.2,0.5,0.8))
+```
+### 28.Trying quantiles for non numeric order data
+```{r}
+quantile(data$Population, c(0.5,0.75,0.25))
+```
+### 29.To determine the cumulative sum of data
+```{r}
+cumsum(data$Dose.1)
+```
+### 30.To get the cumulative maximum value 
+```{r}
+cummax(data$Dose.1)
+```
+### 31.To get the minimum cumulative sum
+```{r}
+cummin(data$Dose.1)
+```
+### 32.To get the cumulative product of the sample
+```{r}
+cumprod(data$Dose.2)
+```
+### 33.Trying cumulative command on a vector of character data
+```{r}
+cummax("State.UTs")
+```
+### 34.To generate sequences of values
+```{r}
+seq(data$Dose.2)
+```
+### 35.By using along we are generating a vector
+```{r}
+seq(along=data$Dose.2)
+```
+### 36.To get the mean of column 2
+```{r}
+mean(data[,2])
+```
+### 37.To get the sum of each column
+```{r}
+colSums(data[,c(2,3)])
+```
+### 38.To get the mean of each row
+```{r}
+rowMeans(data[,c(3,4)])
+```
+### 39. Apply command
+```{r}
+apply(data[,c(3,4)],2,median)
+```
+
+### 40.Max of a column
+```{r}
+max(data$Population)
+```
+### 41.lapply which is used to apply for all columns
+```{r}
+lapply(data,mean,na.rm=TRUE)
+```
+### 42.sapply same as lapply in a prettier form
+```{r}
+sapply(data,mean,na.rm=TRUE)
+```
+### 43.Creating list of column names
+```{r}
+colnames=names(data)
+colnames
+```
+### 44.Creating contingency table of dataframe
+```{r}
+data.tab = with(data,table(colnames[1],colnames[2]))
+data.tab
+```
+### 45.Display the table as proportions of the row tables
+```{r}
+prop.table(data$Dose.2)
+```
+
+### 46.Create a stem and leaf plot for the dataframe
+```{r}
+stem(data$Population)
+```
+### 47.Loading dplyr package to use predefined functions to perform on dataset
+```{r}
+library(dplyr)
+```
+### 48.Adding a column to the dataset
+```{r}
+data %>% mutate(newcol = NA)
+```
+### 49.Renaming the first column as states
+```{r}
+data = data %>% rename(states = "State.UTs")
+data
+```
+### 50.Getting maximum value in Dose.1 column
+```{r}
+max(data$Dose.1)
+```
+### 51.Reordering columns in a dataset
+```{r}
+data %>% select(Dose.2,Dose.1,Population)
+```
+### 52.Getting a subset of a dataframe
+```{r}
+data[data$bookft == "Population" &
+ data$reviews >= 1 &
+ data$reviews <= 20, 
+ c("Dose.1", "Dose.2")]
+```
+### 53.Loading ggplot2 library
+```{r}
+library(ggplot2)
+```
+### 54.To make a scatter plot where x is states and y is Dose.1
+```{r}
+ggplot(data,aes(x=states,y=Dose.1))+geom_point()
+```
+
+### 55.To make line graph
+```{r}
+plot(data$Dose.1,data$Population,type="l")
+```
+
+### 56.Plotting line graphs along with points
+```{r}
+plot(data$Dose.1,data$Population,type="l")
+points(data$Dose.1,data$Population)
+```
+
+### 57.Comparing dose1 and dose2 data by plotting line point graph
+```{r}
+plot(data$Dose.1,data$Population,type="l")
+points(data$Dose.1,data$Population)
+plot(data$Dose.2,data$Population,type="l",col="red")
+points(data$Dose.2,data$Population,col="red")
+```
+### 58.Comparing geom_line and geom_point
+```{r}
+ggplot(data,aes(x=states,y=Dose.1))+geom_line()
+ggplot(data,aes(x=states,y=Dose.1))+geom_line()+geom_point()
+```
+### 59.Bar graph of data frame
+```{r}
+ggplot(data,aes(x=states,y=Population))+geom_col()
+```
+### 60.Converting x coordinate into factor and then plotting bar graph so that it is discrete
+```{r}
+ggplot(data,aes(x=factor(Dose.1),y=Dose.2))+geom_col()
+```
+### 61.To plot bar graph
+```{r}
+ggplot(data,aes(x=Dose.1))+geom_bar()
+```
+### 62.To plot bar graph using factor
+```{r}
+ggplot(data,aes(x=factor(Dose.1)))+geom_bar()
+```
+### 63.Plotting Histogram
+```{r}
+hist(data$Dose.1)
+```
+### 64.Plotting histogram of dose2
+```{r}
+hist(data$Dose.2)
+```
+### 65.Plotting histogram of population
+```{r}
+hist(data$Population)
+```
+### 66.Plotting histogram with specifying approximate number of bins with breaks
+```{r}
+hist(data$Dose.1,breaks=10)
+```
+### 67.Using ggplot to plot histogram
+```{r}
+ggplot(data,aes(x=Dose.1))+geom_histogram()
+```
+
+### 69.Creating boxplot
+```{r}
+boxplot(data$Population,data$Dose.1)
+```
+### 70.Plotting for population and Dose1
+```{r}
+plot(data$Population,data$Dose.1)
+```
+### 71.Plotting box plot with 2 variables in x-axis
+```{r}
+boxplot(Dose.1~Dose.2,data=data)
+```
+### 72.Plotting boxplot by putting interaction of two variables on x-axis
+```{r}
+boxplot(Population~Dose.1+Dose.2,data=data)
+```
+### 73.Plotting boxplot using ggplot2 package
+```{r}
+ggplot(data,aes(x=states,y=Population))+geom_boxplot()
+```
+### 74.Plotting boxplot using ggplot for multiple variables
+```{r}
+ggplot(data,aes(x=interaction(Dose.1,Dose.2),y=Population,states))+geom_boxplot()
+```
+## 75.Plotting a boxplot using color fill
+```{r}
+ggplot(data,aes(x=Dose.1,y=Dose.2))+geom_col(fill="lightblue",colour="red")
+```
+### 76.Using mapcultivator to fill color into bargraph
+```{r}
+ggplot(data,aes(x=Dose.1,y=Dose.2,fill = states))+geom_col(position="dodge")
+```
+### 77.Using mapcultivator to fill color into bargraph for population
+```{r}
+ggplot(data,aes(x=Dose.1,y=Dose.2,fill = Population))+geom_col(position="dodge")
+```
+### 78.Usin scale_fill_brewer() to the boxplot for changing colors
+```{r}
+ggplot(data,aes(x=Dose.1,y=Dose.2,fill=states))+geom_col(position="dodge",colour = "green")+scale_fill_brewer(palette = "Pastel1")
+```
+### 79.Rearranging and slicing 
+```{r}
+ans = data %>%
+  arrange(desc(data)) %>%
+  slice(1:10)
+ans
+```
+### 80.Then plotting the above data
+```{r}
+ggplot(ans,aes(x=states,y=Dose.1,fill=Population))+geom_col()
+```
+### 81.Plotting bar graph without spaces between bars
+```{r}
+ggplot(data,aes(x=states,y=Dose.2,fill=Population))+geom_col(width=0.5,position = "dodge")
+```
+### 82.Plotting bar graph with spaces between bars
+```{r}
+ggplot(data,aes(x=states,y=Dose.2,fill=Population))+geom_col(width=0.5,position = position_dodge(0.7))
+```
+### 83Reversing the stacking order of the graph
+```{r}
+ggplot(ans,aes(x=states,y=Dose.1,fill=Population))+geom_col()+guides(fill=guide_legend(reverse=TRUE))
+```
+### 84.Adding text to x and y axis
+```{r}
+ggplot(ans, aes(x = interaction(Dose.1, Dose.2), y = Population)) +
+ geom_col() +
+ geom_text(aes(label = Population), vjust = 1.5, colour = "green")
+```
+### 85.Adding text to x and y axis above the bars
+```{r}
+ggplot(ans, aes(x = interaction(Dose.1, Dose.2), y = Population)) +
+ geom_col() +
+ geom_text(aes(label = Population), vjust = -0.2, colour = "green")
+```
+### 86.Putting the label in the middle of each bar
+```{r}
+ce <- ans%>%
+ group_by(Dose.1) %>%
+ mutate(label_y = cumsum(Dose.1) - 0.5 * Dose.1)
+ggplot(ce, aes(x = states, y = Dose.1, fill = Dose.2)) +
+ geom_col() +
+ geom_text(aes(y = label_y, label = Dose.1), colour = "green")
+```
+### 87.Setting the dose 2 column in the range from 0 to max
+```{r}
+ggplot(ans, aes(x = Dose.1, y = Dose.2)) +
+ geom_line() +
+ ylim(0, max(ans$Dose.2))
+```
+### 88.Setting the dose 2 column in the range from 0 to max by using expand_limits()
+
+```{r}
+ggplot(ans, aes(x = Dose.1, y = Dose.2)) +
+ geom_line() +
+ expand_limits(y = 0)
+```
+### 89.Plotting line and point graph for ans data
+
+```{r}
+ggplot(ans, aes(x = Dose.1, y = Dose.2)) +
+ geom_line() +
+ geom_point()
+```
+### 90.Plotting the line and point graph with inconsistent data points
+```{r}
+ggplot(ans, aes(x = Dose.1, y = Population)) +
+ geom_line() +
+ geom_point()
+```
+### 91.Plotting the line and point graph with inconsistent data points and log on y axis
+```{r}
+ggplot(ans, aes(x = Dose.2, y = Population)) +
+ geom_line() +
+ geom_point() +
+ scale_y_log10()
+```
+### 92.Adding mapsup colour to line graph
+```{r}
+ggplot(ans, aes(x = Dose.2, y = Dose.1, colour = Population)) +
+ geom_line()
+```
+### 93.Mapping variables to propertoes of a point
+```{r}
+ggplot(ans, aes(x = Dose.1, y = Dose.2, shape = states)) +
+ geom_line() +
+ geom_point(size = 4)
+```
+### 94.Mapping variables to propertoes of a point of different colors and same shape
+```{r}
+ggplot(ans, aes(x = Dose.1, y = Dose.2, fill = states)) +
+ geom_line() +
+ geom_point(size = 4, shape = 21)
+```
+
+### 95.Plotting dashed line graph
+```{r}
+ggplot(ans, aes(x = Dose.1, y = Dose.2)) +
+ geom_line(linetype = "dashed", size = 1, colour = "blue")
+```
+
+### 96.Plotting dashed lined raph with points
+```{r}
+ggplot(ans, aes(x = Dose.1, y = Dose.2, colour = states)) +
+ geom_line(linetype = "dashed") +
+ geom_point(shape = 22, size = 3, fill = "white")
+```
+
+### 97.Plotting areaplot
+```{r}
+ggplot(ans, aes(x = Population, y = Dose.1)) +
+ geom_area()
+```
+
+### 98.Plotting areaplot with colours for better analysis
+```{r}
+ggplot(ans, aes(x = Dose.1, y = Dose.2)) +
+ geom_area(colour = "black", fill = "blue", alpha = .2)
+```
+
+### 99.Area graph With a dotted line for upper and lower bounds
+```{r}
+ggplot(ans, aes(x = Dose.1, y = Dose.2)) +
+geom_line(aes(y = Dose.1 - Dose.2), colour = "grey50",
+linetype = "dotted") +
+geom_line(aes(y = Dose.1 + Dose.2), colour = "grey50",
+linetype = "dotted") +
+geom_line()
+```
+
+### 100.Plotting line graph on top of shaded regions
+```{r}
+ggplot(ans, aes(x = Dose.1, y = Dose.2)) +
+geom_ribbon(aes(ymin = Dose.2 - Dose.1,
+ymax = Dose.1 + Dose.2),
+alpha = 0.2) +
+geom_line()
+```
+
